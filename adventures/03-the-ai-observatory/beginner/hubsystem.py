@@ -3,6 +3,7 @@ import ollama
 import base64
 from rich.console import Console
 from rich.panel import Panel
+from traceloop.sdk import Traceloop
 
 # --- Configuration ---
 OLLAMA_HOST = "http://localhost:30105"
@@ -52,6 +53,10 @@ class HubSystem:
         self.history.append({"role": "assistant", "content": response_content})
 
 def main():
+    Traceloop.init(
+        app_name="hubsystem.py",
+        api_endpoint="http://localhost:30107/v1/traces",
+    )
     console = Console()
     hub = HubSystem(OLLAMA_HOST, MODEL_NAME)
 
