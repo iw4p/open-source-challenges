@@ -1,7 +1,8 @@
 apiVersion: policies.kyverno.io/v1
-kind: ValidatingPolicy
+kind: NamespacedValidatingPolicy
 metadata:
   name: aegyptus-require-scribe-role
+  namespace: aegyptus
   annotations:
     policies.kyverno.io/title: Aegyptus — Require Scribe Role
     policies.kyverno.io/category: Best Practices
@@ -21,9 +22,6 @@ spec:
         apiVersions: ["v1"]
         operations: ["CREATE", "UPDATE"]
         resources: ["pods"]
-    namespaceSelector:
-      matchLabels:
-        republic.rome/realm: province
   validations:
     - expression: >-
         has(object.metadata.labels) &&

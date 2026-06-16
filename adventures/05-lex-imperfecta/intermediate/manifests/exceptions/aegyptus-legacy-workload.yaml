@@ -14,8 +14,13 @@ spec:
     - name: require-census
       kind: ValidatingPolicy
   matchConditions:
-    - name: is-legacy
+    - name: is-aegyptus-legacy-scribe
       expression: >-
+        object.metadata.namespace == 'aegyptus' &&
         has(object.metadata.labels) &&
         'republic.rome/legacy' in object.metadata.labels &&
-        object.metadata.labels['republic.rome/legacy'] == 'true'
+        object.metadata.labels['republic.rome/legacy'] == 'true' &&
+        'republic.rome/province' in object.metadata.labels &&
+        object.metadata.labels['republic.rome/province'] == 'aegyptus' &&
+        'republic.rome/role' in object.metadata.labels &&
+        object.metadata.labels['republic.rome/role'] == 'scribe'
