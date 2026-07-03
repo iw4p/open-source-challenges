@@ -1,0 +1,37 @@
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  name: require-archivist-for-census
+  annotations:
+    policies.kyverno.io/title: Require Archivist for Census Archive
+    policies.kyverno.io/category: Best Practices
+    policies.kyverno.io/severity: high
+    policies.kyverno.io/subject: Pod, Secret, Label
+    policies.kyverno.io/description: >-
+      The census archive may only be mounted by workloads bearing the Archivist
+      role. Unauthorised citizens cannot access the imperial rolls.
+spec:
+  validationActions:
+    - Deny
+    - Audit
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["pods"]
+    namespaceSelector:
+      matchLabels:
+        republic.rome/realm: province
+  validations:
+    - expression: >-
+        !object.spec.?volumes.orValue([]).exists(v,
+          v.?secret.?secretName.orValue('') == 'census-archive'
+        )
+        ||
+        (
+          has(object.metadata.labels) &&
+          'republic.rome/role' in object.metadata.labels &&
+          object.metadata.labels['republic.rome/role'] == 'archivist'
+        )
+      message: "Only archivist workloads may mount the census archive."

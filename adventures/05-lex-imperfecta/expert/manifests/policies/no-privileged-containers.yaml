@@ -37,3 +37,14 @@ spec:
           !c.?securityContext.?privileged.orValue(false)
         )
       message: "The Senate forbids unchecked power: privileged containers are not permitted in the provinces."
+    - expression: >-
+        variables.allContainers.all(c,
+          !('SYS_ADMIN' in c.?securityContext.?capabilities.?add.orValue([]))
+        )
+      message: "The Senate forbids unchecked power: containers may not add the SYS_ADMIN capability."
+    - expression: >-
+        variables.allContainers.all(c,
+          !('NET_ADMIN' in c.?securityContext.?capabilities.?add.orValue([]))
+        )
+      message: "The Senate forbids unchecked power: containers may not add the T_ADMIN capability."
+      
