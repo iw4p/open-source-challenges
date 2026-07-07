@@ -66,7 +66,7 @@ spec:
           title: Fleet
           type: string
           description: The fleet this vessel sails with
-          ui:field: EntityPicker
+          ui:field: OwnerPicker
           ui:options:
             catalogFilter:
               kind: System
@@ -111,6 +111,7 @@ spec:
       action: publish:gitea
       input:
         description: ${{ parameters.description }}
+        repoUrl: ${{ parameters.repoUrl }}
         defaultBranch: main
 
     # Enter the vessel into the fleet registry: register it in the catalog.
@@ -132,4 +133,4 @@ spec:
         url: ${{ steps['publish'].output.remoteUrl }}
       - title: Open in registry
         icon: catalog
-        entityRef: ${{ todo }}
+        entityRef: ${{ steps['register'].output.entityRef }}
