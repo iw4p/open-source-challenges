@@ -16,7 +16,6 @@ headaches.
 - ✅ **Two-step verification** - Smoke tests and GitHub Actions validate your solution
 - 🎓 **Three levels** - Beginner, Intermediate, and Expert for each adventure
 
-## 🚀 Ready to Start?
 ## 💻 Run locally
 
 The challenge environments can also be opened locally using VS Code Dev Containers.
