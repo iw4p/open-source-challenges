@@ -149,10 +149,6 @@ spec:
         # delivery pipeline (via the Argo Events Sensor) reads this trailer off
         # the push, so the shipyard's and harbor master's spans join this same
         # trace. It rides only on this first commit and never clutters the repo.
-        gitCommitMessage: |
-          Commission ${{ parameters.name }}
-
-          Traceparent: ${{ steps['trace-start'].output.traceparent }}
 
     # Draft the vessel's papers: the Go service source that will become the
     # code repo. deployUrl flows into catalog-info.yaml so the vessel's page can
@@ -182,6 +178,11 @@ spec:
         description: ${{ parameters.description }}
         defaultBranch: main
         sourcePath: ./code
+        gitCommitMessage: |
+          Commission ${{ parameters.name }}
+
+          Traceparent: ${{ steps['trace-start'].output.traceparent }}
+
 
     # Enter the vessel into the fleet registry: register the code repo's
     # catalog-info.yaml in the catalog. Only the code repo is registered as a
